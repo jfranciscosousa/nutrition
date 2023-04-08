@@ -1,9 +1,10 @@
 import camelcaseKeys from "camelcase-keys";
 import { APP_ID, APP_KEY } from "$env/static/private";
+import { GET_FOOD_MOCK } from "./getFood.mock";
 
 export interface FoodElement {
   foodName: string;
-  brandName?: string;
+  brandName: string | null;
   servingQty: number;
   servingUnit: string;
   servingWeightGrams: number;
@@ -19,31 +20,31 @@ export interface FoodElement {
   nfPotassium: number;
   nfP: number;
   fullNutrients: FullNutrient[];
-  nixBrandName?: string;
-  nixBrandId?: string;
-  nixItemName?: string;
-  nixItemId?: string;
-  upc?: string;
-  consumedAt: Date;
+  nixBrandName: string | null;
+  nixBrandId: string | null;
+  nixItemName: string | null;
+  nixItemId: string | null;
+  upc: string | null;
+  consumedAt: string;
   metadata: Metadata;
   source: number;
   ndbNo: number;
   tags: Tags;
   altMeasures: AltMeasure[];
-  lat?: string;
-  lng?: string;
+  lat: string | null;
+  lng: string | null;
   mealType: number;
   photo: Photo;
-  subRecipe?: string;
-  classCode?: string;
-  brickCode?: string;
-  tagId?: string;
+  subRecipe: string | null;
+  classCode: string | null;
+  brickCode: string | null;
+  tagId: string | null;
 }
 
 export interface AltMeasure {
   servingWeight: number;
   measure: string;
-  seq?: number;
+  seq: number | null;
   qty: number;
 }
 
@@ -64,13 +65,15 @@ export interface Photo {
 
 export interface Tags {
   item: string;
-  measure: string;
+  measure: string | null;
   quantity: string;
   foodGroup: number;
   tagId: number;
 }
 
 export async function getFood(query: string, remoteUserId = "0"): Promise<FoodElement> {
+  if (import.meta.env.MODE === "e2e") return GET_FOOD_MOCK;
+
   const response = await fetch("https://trackapi.nutritionix.com/v2/natural/nutrients", {
     method: "POST",
     headers: {

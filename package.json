@@ -6,8 +6,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "playwright test",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "ts-check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "ts-check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
     "format": "prettier --plugin-search-dir . --write ."
   },
@@ -41,5 +41,11 @@
     "typescript": "^4.9.3",
     "vite": "^4.0.0"
   },
-  "type": "module"
+  "type": "module",
+  "lint-staged": {
+    "*.{js,css,postcss,md,html,json,ts,svelte,cjs}": [
+      "eslint --fix",
+      "prettier --cache --write"
+    ]
+  }
 }

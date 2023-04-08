@@ -1,4 +1,4 @@
-import { getFood } from "$lib/data/getFood";
+import { getFood } from "$lib/data/getFood.server";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ url, setHeaders }) => {

@@ -3,4 +3,5 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [sveltekit()],
+  mode: process.env.MODE || "development",
 });
