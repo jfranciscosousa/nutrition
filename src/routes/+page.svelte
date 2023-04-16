@@ -1,5 +1,6 @@
 <script lang="ts">
   import { navigating } from "$app/stores";
+  import SearchForm from "$lib/components/SearchForm.svelte";
   import { ProgressRadial } from "@skeletonlabs/skeleton";
 </script>
 
@@ -7,15 +8,6 @@
   {#if $navigating?.type === "form"}
     <ProgressRadial />
   {:else}
-    <form class="flex flex-col items-center w-full" action="/search">
-      <!-- svelte-ignore a11y-autofocus -->
-      <input
-        class="max-w-[440px] w-full input p-2"
-        placeholder="eg: 100g of kidney beans"
-        name="query"
-        autofocus
-      />
-      <button class="btn variant-filled-primary mt-4">Search</button>
-    </form>
+    <SearchForm />
   {/if}
 </main>

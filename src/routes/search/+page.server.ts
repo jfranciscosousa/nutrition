@@ -15,8 +15,9 @@ export const load: PageServerLoad = async ({ url, setHeaders }) => {
 
   if (!food)
     return {
+      query,
       noResults: true,
     };
 
-  return { food };
+  return { query, food };
 };
