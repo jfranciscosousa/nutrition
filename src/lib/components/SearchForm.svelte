@@ -1,5 +1,4 @@
 <script lang="ts">
-
   export let row = false;
   export let value: string | null | undefined = undefined;
 </script>
