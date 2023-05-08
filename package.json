@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "@skeletonlabs/skeleton": "^1.2.5",
-    "camelcase-keys": "^8.0.2"
+    "camelcase-keys": "^8.0.2",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@playwright/test": "^1.33.0",

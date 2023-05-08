@@ -11,13 +11,15 @@ export const load: PageServerLoad = async ({ url, setHeaders }) => {
 
   setHeaders({ "cache-control": "s-maxage=5000" });
 
-  const food = await getFood(query);
+  const foodResult = await getFood(query);
 
-  if (!food)
+  if (foodResult.error) console.error(foodResult.error);
+
+  if (!foodResult.food)
     return {
       query,
       noResults: true,
     };
 
-  return { query, food };
+  return { query, food: foodResult.food };
 };
