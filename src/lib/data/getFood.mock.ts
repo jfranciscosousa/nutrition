@@ -1,6 +1,6 @@
 import type { FoodElement } from "./getFood.server";
 
-export const GET_FOOD_MOCK: FoodElement = {
+export const GET_FOOD_MOCK = {
   foodName: "beans",
   brandName: null,
   servingQty: 1,
@@ -154,4 +154,4 @@ export const GET_FOOD_MOCK: FoodElement = {
   classCode: null,
   brickCode: null,
   tagId: null,
-};
+} as FoodElement;
