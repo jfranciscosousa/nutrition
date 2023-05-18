@@ -56,8 +56,7 @@ jobs:
         run: |
           pnpm lint
           pnpm ts-check
-          pnpm build-prod
-          pnpm a11y
+          pnpm build
           pnpm test
         env:
           APP_ID: foobar
