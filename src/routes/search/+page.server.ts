@@ -1,6 +1,10 @@
 import { getFood } from "$lib/data/getFood.server";
 import type { PageServerLoad } from "./$types";
 
+function capitalize(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 export const load: PageServerLoad = async ({ url, setHeaders }) => {
   const query = url.searchParams.get("query");
 
@@ -19,7 +23,10 @@ export const load: PageServerLoad = async ({ url, setHeaders }) => {
     return {
       query,
       noResults: true,
+      meta: {
+        title: "No results!",
+      },
     };
 
-  return { query, food: foodResult.food };
+  return { query, food: foodResult.food, meta: { title: capitalize(query) } };
 };

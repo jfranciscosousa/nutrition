@@ -27,19 +27,7 @@
       },
     ];
   }
-
-  function capitalize(string: string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
 </script>
-
-<svelte:head>
-  {#if data.food}
-    <title>{capitalize(data.query)} | Nutrition Bay</title>
-  {:else}
-    <title>No results! | Nutrition Bay</title>
-  {/if}
-</svelte:head>
 
 {#if $navigating?.type === "form"}
   <main class="h-screen w-screen flex flex-col items-center justify-center px-4">
