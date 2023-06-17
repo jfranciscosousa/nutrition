@@ -61,3 +61,48 @@ export async function getFood(
 
   return { error: parseResult.error };
 }
+
+export async function getFoods(
+  query: string,
+): Promise<{ food?: FoodElement; error?: never } | { error: unknown; food?: never }> {
+  const foodList = query.split(",");
+  const foodResults = await Promise.all(foodList.map((food) => getFood(food)));
+  const foodElement: FoodElement = {
+    nfCalories: 0,
+    nfCholesterol: 0,
+    nfDietaryFiber: 0,
+    nfP: 0,
+    nfPotassium: 0,
+    nfProtein: 0,
+    nfSaturatedFat: 0,
+    nfSodium: 0,
+    nfSugars: 0,
+    nfTotalCarbohydrate: 0,
+    nfTotalFat: 0,
+    servingQty: 0,
+    servingUnit: "list",
+    servingWeightGrams: 0,
+    foodName: query,
+  };
+
+  const hasError = foodResults.some((foodResult) => {
+    if (foodResult.error || !foodResult.food) return true;
+
+    foodElement.nfCalories += foodResult.food.nfCalories;
+    foodElement.nfCholesterol += foodResult.food.nfCholesterol;
+    foodElement.nfDietaryFiber += foodResult.food.nfDietaryFiber;
+    foodElement.nfP += foodResult.food.nfP;
+    foodElement.nfPotassium += foodResult.food.nfPotassium;
+    foodElement.nfProtein += foodResult.food.nfProtein;
+    foodElement.nfSaturatedFat += foodResult.food.nfSaturatedFat;
+    foodElement.nfSodium += foodResult.food.nfSodium;
+    foodElement.nfSugars += foodResult.food.nfSugars;
+    foodElement.nfTotalCarbohydrate += foodResult.food.nfTotalCarbohydrate;
+    foodElement.nfTotalFat += foodResult.food.nfTotalFat;
+    foodElement.servingWeightGrams += foodResult.food.servingWeightGrams;
+  });
+
+  if (hasError) return { error: "Some food has error" };
+
+  return { food: foodElement };
+}

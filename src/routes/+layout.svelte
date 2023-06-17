@@ -4,8 +4,6 @@
   import "@skeletonlabs/skeleton/themes/theme-modern.css";
   import "@skeletonlabs/skeleton/styles/all.css";
   import "../app.postcss";
-
-  $: console.log($page.data);
 </script>
 
 <svelte:head>

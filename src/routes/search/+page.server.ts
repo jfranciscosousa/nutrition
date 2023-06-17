@@ -1,4 +1,4 @@
-import { getFood } from "$lib/data/getFood.server";
+import { getFoods } from "$lib/data/getFood.server";
 import type { PageServerLoad } from "./$types";
 
 function capitalize(string: string) {
@@ -15,7 +15,7 @@ export const load: PageServerLoad = async ({ url, setHeaders }) => {
 
   setHeaders({ "cache-control": "s-maxage=5000" });
 
-  const foodResult = await getFood(query);
+  const foodResult = await getFoods(query);
 
   if (foodResult.error) console.error(foodResult.error);
 
