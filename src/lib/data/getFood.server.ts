@@ -1,4 +1,5 @@
 import camelcaseKeys, { type CamelCaseKeys } from "camelcase-keys";
+import { LRUCache } from "lru-cache";
 import { APP_ID, APP_KEY } from "$env/static/private";
 import { GET_FOOD_MOCK } from "./getFood.mock";
 import { z } from "zod";
@@ -32,11 +33,15 @@ export const schema = z.object({
 
 export type FoodElement = CamelCaseKeys<z.TypeOf<typeof schema>, true>["foods"][0];
 
+const cache = new LRUCache<string, FoodElement>({ ttl: 86_400_000 } as any);
+
 export async function getFood(
   query: string,
   remoteUserId = "0",
 ): Promise<{ food?: FoodElement; error?: never } | { error: unknown; food?: never }> {
   if (import.meta.env.MODE === "e2e") return { food: GET_FOOD_MOCK };
+
+  if (cache.get(query)) return { food: cache.get(query) };
 
   const response = await fetch("https://trackapi.nutritionix.com/v2/natural/nutrients", {
     method: "POST",
@@ -56,8 +61,13 @@ export async function getFood(
 
   const parseResult = schema.safeParse(json);
 
-  if (parseResult.success)
-    return { food: camelcaseKeys(parseResult.data.foods[0], { deep: true }) };
+  if (parseResult.success) {
+    const foodElement = camelcaseKeys(parseResult.data.foods[0], { deep: true });
+
+    cache.set(query, foodElement);
+
+    return { food: foodElement };
+  }
 
   return { error: parseResult.error };
 }
@@ -65,6 +75,8 @@ export async function getFood(
 export async function getFoods(
   query: string,
 ): Promise<{ food?: FoodElement; error?: never } | { error: unknown; food?: never }> {
+  if (cache.get(query)) return { food: cache.get(query) };
+
   const foodList = query.split(",");
   const foodResults = await Promise.all(foodList.map((food) => getFood(food)));
   const foodElement: FoodElement = {
@@ -103,6 +115,8 @@ export async function getFoods(
   });
 
   if (hasError) return { error: "Some food has error" };
+
+  cache.set(query, foodElement);
 
   return { food: foodElement };
 }
