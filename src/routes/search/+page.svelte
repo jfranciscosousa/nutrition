@@ -40,11 +40,11 @@
     </div>
 
     {#if data.food}
-      <h1 class="capitalize">{data.food.foodName}</h1>
+      <h2 class="capitalize unstyled font-semibold text-xl sm:text-lg">{data.food.foodName}</h2>
 
       <div class="grid grid-cols-2 md:grid-cols-1">
         <div class="mt-8 flex flex-col gap-2">
-          <p class="text-lg font-semibold">Serving size: {data.food.servingWeightGrams}g</p>
+          <p class="text-lg font-medium">Serving size: {data.food.servingWeightGrams}g</p>
           <p>{data.food.nfCalories}kcal</p>
           <p>{data.food.nfTotalFat}g total fat</p>
           <p>{data.food.nfSaturatedFat}g saturated fat</p>

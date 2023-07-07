@@ -100,18 +100,22 @@ export async function getFoods(
   const hasError = foodResults.some((foodResult) => {
     if (foodResult.error || !foodResult.food) return true;
 
-    foodElement.nfCalories += foodResult.food.nfCalories;
-    foodElement.nfCholesterol += foodResult.food.nfCholesterol;
-    foodElement.nfDietaryFiber += foodResult.food.nfDietaryFiber;
-    foodElement.nfP += foodResult.food.nfP;
-    foodElement.nfPotassium += foodResult.food.nfPotassium;
-    foodElement.nfProtein += foodResult.food.nfProtein;
-    foodElement.nfSaturatedFat += foodResult.food.nfSaturatedFat;
-    foodElement.nfSodium += foodResult.food.nfSodium;
-    foodElement.nfSugars += foodResult.food.nfSugars;
-    foodElement.nfTotalCarbohydrate += foodResult.food.nfTotalCarbohydrate;
-    foodElement.nfTotalFat += foodResult.food.nfTotalFat;
-    foodElement.servingWeightGrams += foodResult.food.servingWeightGrams;
+    foodElement.nfCalories += +foodResult.food.nfCalories.toFixed(2);
+    foodElement.nfCholesterol += +foodResult.food.nfCholesterol.toFixed(2);
+    foodElement.nfDietaryFiber += +foodResult.food.nfDietaryFiber.toFixed(2);
+    foodElement.nfP += +foodResult.food.nfP.toFixed(2);
+    foodElement.nfPotassium += +foodResult.food.nfPotassium.toFixed(2);
+    foodElement.nfProtein += +foodResult.food.nfProtein.toFixed(2);
+    foodElement.nfSaturatedFat += +foodResult.food.nfSaturatedFat.toFixed(2);
+    foodElement.nfSodium += +foodResult.food.nfSodium.toFixed(2);
+    foodElement.nfSugars += +foodResult.food.nfSugars.toFixed(2);
+    foodElement.nfTotalCarbohydrate += +foodResult.food.nfTotalCarbohydrate.toFixed(2);
+    foodElement.nfTotalFat += +foodResult.food.nfTotalFat.toFixed(2);
+    foodElement.servingWeightGrams += +foodResult.food.servingWeightGrams.toFixed(2);
+  });
+
+  Object.entries(foodElement).forEach(([key, value]) => {
+    if (typeof value === "number") (foodElement as any)[key] = +value.toFixed(2);
   });
 
   if (hasError) return { error: "Some food has error" };
